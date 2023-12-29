@@ -1,0 +1,30 @@
+
+canvas{
+  position: absolute;
+}
+
+video{
+position: absolute;
+width: 450px;
+height: 450px;
+}
+.input{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
+
+@media (min-width:420px) {
+.second{}
+video{
+  margin-left: 0px;
+}
+.second{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  margin-top: 300px;
+}
+}
