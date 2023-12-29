@@ -1,5 +1,9 @@
+import * as canvas from 'canvas';
 import {useRef,useEffect,useState} from 'react'
-import './App.css'
+import './App.css';
+import { fabric } from 'fabric';
+// import * as canvases from 'canvas';
+// const { Canvas, Image, ImageData } = canvases
 import * as faceapi from 'face-api.js'
 
 function App(){
@@ -9,9 +13,9 @@ function App(){
   let interval=useRef();
   const [isPlaying, setIsPlaying] = useState(false);
   const handlePlayPause = () => {
+    console.log("Asd")
     if (isPlaying) {
       videoRef.current.pause();
-      canvasRef.current.innerHtml="";
       clearInterval(interval.current);
 
     } else {
@@ -21,6 +25,7 @@ function App(){
   };
   const loadModels = ()=>{
     Promise.all([
+      // THIS FOR FACE DETECT AND LOAD FROM YOU PUBLIC/MODELS DIRECTORY
       faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
       faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
       faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
@@ -32,8 +37,8 @@ function App(){
   }
 
   const detectFaces = ()=>{
-    interval.current=videoRef.current.play().then(()=>{
-      setInterval(async()=>{
+    videoRef.current.play().then(()=>{
+      interval.current=setInterval(async()=>{
         const detections = await faceapi.detectAllFaces(videoRef.current,
           new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
           canvasRef.current.innerHtml = faceapi.createCanvasFromMedia(videoRef.current);
@@ -46,9 +51,14 @@ function App(){
              width:canvasRef.current.width,
             height:canvasRef.current.height
           })
-          faceapi.draw.drawDetections(canvasRef.current,resized)
-          faceapi.draw.drawFaceLandmarks(canvasRef.current,resized)
-          faceapi.draw.drawFaceExpressions(canvasRef.current,resized)
+           const canvas2 = new fabric.Canvas(canvasRef.current);
+          resized.forEach((ele)=>{
+             canvas2.add(new fabric.Rect({
+              width: ele.alignedRect._box._width, height: ele.alignedRect._box._height,
+              left: ele.alignedRect._box._x, top: ele.alignedRect._box._y,
+              fill: 'transparent', strokeWidth: 5, stroke: 'red'
+            }));
+          })
       },1000)
     })
   }
@@ -64,7 +74,7 @@ function App(){
   return (
     < >
       <div className='input'>
-        <input type="file" accept="video/*" ref={fileInputRef} onChange={handleFileChange} />
+        <input type="file" accept="*" ref={fileInputRef} onChange={handleFileChange} />
         <button onClick={handlePlayPause}>{isPlaying ? 'Pause' : 'Play'}</button>
       </div>
       <div className='second'>
