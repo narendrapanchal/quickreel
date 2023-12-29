@@ -9,7 +9,6 @@ function App(){
   let interval=useRef();
   const [isPlaying, setIsPlaying] = useState(false);
   const handlePlayPause = () => {
-    console.log("Asd")
     if (isPlaying) {
       videoRef.current.pause();
       canvasRef.current.innerHtml="";
@@ -22,7 +21,6 @@ function App(){
   };
   const loadModels = ()=>{
     Promise.all([
-      // THIS FOR FACE DETECT AND LOAD FROM YOU PUBLIC/MODELS DIRECTORY
       faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
       faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
       faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
