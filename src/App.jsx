@@ -13,7 +13,6 @@ function App(){
   let interval=useRef();
   const [isPlaying, setIsPlaying] = useState(false);
   const handlePlayPause = () => {
-    console.log("Asd")
     if (isPlaying) {
       videoRef.current.pause();
       clearInterval(interval.current);
@@ -25,7 +24,6 @@ function App(){
   };
   const loadModels = ()=>{
     Promise.all([
-      // THIS FOR FACE DETECT AND LOAD FROM YOU PUBLIC/MODELS DIRECTORY
       faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
       faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
       faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
@@ -75,7 +73,7 @@ function App(){
     < >
       <div className='input'>
         <input type="file" accept="*" ref={fileInputRef} onChange={handleFileChange} />
-        <button onClick={handlePlayPause}>{isPlaying ? 'Pause' : 'Play'}</button>
+        <button className='play_pause' onClick={handlePlayPause}>{isPlaying ? 'Pause' : 'Play'}</button>
       </div>
       <div className='second'>
       <video style={{position:"absolute"}}  width={450} height={450} crossOrigin="anonymous" ref={videoRef} ></video>

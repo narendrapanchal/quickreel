@@ -10,6 +10,14 @@ width: 450px;
 height: 450px;
 z-index: 1
 }
+.play_pause{
+  background: #186F65;
+  color: #F1EFEF;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px ;
+  cursor: pointer;
+}
 .input{
   display: flex;
   justify-content: center;
@@ -20,6 +28,9 @@ z-index: 1
 }
 .second{
   margin-top: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 @media (min-width:420px) {
 .second{}
